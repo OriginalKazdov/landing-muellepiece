@@ -2,55 +2,103 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { BurgerIcon, CloseIcon } from '../utils/icons'
-import React, { useState } from 'react';
+import { BurgerIcon, CloseIcon } from '../utils/icons';
+import React, { useState, useEffect } from 'react';
 
 export default function Navbar() {
-    const [isOpen, setisOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
+
     const handleClick = () => {
-        setisOpen(!isOpen);
-    }
+        setIsOpen(!isOpen);
+    };
+
+    useEffect(() => {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        if (dropdownMenu) {
+            if (isOpen) {
+                dropdownMenu.style.display = 'block';
+            } else {
+                dropdownMenu.style.display = 'none';
+            }
+        }
+    }, [isOpen]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 768) {
+                setIsOpen(false);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return (
-        <nav className="bg-blue-piece-100">
+        <nav className="bg-blue-piece-100 w-full p-4">
             <div className="flex container mx-auto justify-between items-center">
                 <div>
                     <Image 
-                    src='/logomp.png' 
-                    alt="logo" 
-                    width={50} 
-                    height={50}
-                    style={{borderRadius: '50%'}}
+                        src='/logomp.png' 
+                        alt="logo" 
+                        width={50} 
+                        height={50}
+                        style={{ borderRadius: '50%' }}
                     />
                 </div>
-                <div className="text-blue-piece-300 font-roboto hidden md:flex">
-                    <ul>
+                <div className="hidden md:flex space-x-4 text-blue-piece-300 font-roboto text-base md:text-lg">
+                    <ul className="flex space-x-4">
                         <li>
-                            <Link href='/home'>Home</Link>
+                            <Link href='/home' className="hover:text-white">Home</Link>
                         </li>
                         <li>
-                            <Link href='/about'>About Us</Link>
+                            <Link href='/about' className="hover:text-white">About Us</Link>
                         </li>
                         <li>
-                            <Link href='/features'>Features</Link>
+                            <Link href='/features' className="hover:text-white">Features</Link>
                         </li>
                         <li>
-                            <Link href='/team'>Team</Link>
+                            <Link href='/team' className="hover:text-white">Team</Link>
                         </li>
                         <li>
-                            <Link href='/testimonials'>Testimonials</Link>
+                            <Link href='/testimonials' className="hover:text-white">Testimonials</Link>
                         </li>
                         <li>
-                            <Link href='/contact'>Contact Us</Link>
+                            <Link href='/contact' className="hover:text-white">Contact Us</Link>
                         </li>
                     </ul>
                 </div>
                 <div className="md:hidden flex items-center">
                     <button onClick={handleClick}>
-                        {isOpen ? <CloseIcon /> : <BurgerIcon/>}
+                        {isOpen ? <CloseIcon /> : <BurgerIcon />}
                     </button>
                 </div>
             </div>
+            {/* Dropdown Menu */}
+            <div id="dropdownMenu" className="hidden md:hidden bg-blue-piece-100 text-blue-piece-300 font-roboto text-base md:text-lg absolute top-16 left-0 w-full p-4">
+                <ul className="flex flex-col items-center space-y-4">
+                    <li>
+                        <Link href='/home' className="hover:text-white">Home</Link>
+                    </li>
+                    <li>
+                        <Link href='/about' className="hover:text-white">About Us</Link>
+                    </li>
+                    <li>
+                        <Link href='/features' className="hover:text-white">Features</Link>
+                    </li>
+                    <li>
+                        <Link href='/team' className="hover:text-white">Team</Link>
+                    </li>
+                    <li>
+                        <Link href='/testimonials' className="hover:text-white">Testimonials</Link>
+                    </li>
+                    <li>
+                        <Link href='/contact' className="hover:text-white">Contact Us</Link>
+                    </li>
+                </ul>
+            </div>
         </nav>
-    )
+    );
 }
