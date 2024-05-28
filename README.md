@@ -46,4 +46,5 @@ Para clonar y ejecutar este proyecto en tu máquina local, sigue estos pasos:
 ## Colaboradores
 
 - **Kazdov**: Programador y moderador de MuellePiece
-- **Asta**: Diseñador y PieceFunder de MuellePiece
+- **Asta**: Diseñador y Owner de MuellePiece
+- **Nouraq**: Owner de Muellepiece
