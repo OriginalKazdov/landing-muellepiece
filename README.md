@@ -36,6 +36,8 @@ Para clonar y ejecutar este proyecto en tu máquina local, sigue estos pasos:
 
    ```bash
    npm install
+## Inicialización del Proyecto
+
 4. **Corre el proyecto en tu terminal:**
 
    ```bash
