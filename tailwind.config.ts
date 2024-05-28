@@ -17,6 +17,10 @@ const config = {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      'roboto': ['Roboto', 'sans-serif'],
+      'openSans': ['Open Sans', 'sans-serif']
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -52,6 +56,12 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        'blue-piece-500': '#002740',
+        'blue-piece-400': '#004e80',
+        'blue-piece-300': '#00629f',
+        'blue-piece-200': '#0089df',
+        'blue-piece-100': '#001420',
+        'black-piece-100': '#004e80',
       },
       borderRadius: {
         lg: "var(--radius)",
