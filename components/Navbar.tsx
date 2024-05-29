@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
+import Link from 'next/link';
+import Image from 'next/image';
 import { BurgerIcon, CloseIcon } from '../utils/icons';
 import React, { useState, useEffect } from 'react';
 
@@ -15,11 +15,7 @@ export default function Navbar() {
     useEffect(() => {
         const dropdownMenu = document.getElementById('dropdownMenu');
         if (dropdownMenu) {
-            if (isOpen) {
-                dropdownMenu.style.display = 'block';
-            } else {
-                dropdownMenu.style.display = 'none';
-            }
+            dropdownMenu.style.display = isOpen ? 'block' : 'none';
         }
     }, [isOpen]);
 
@@ -37,7 +33,7 @@ export default function Navbar() {
     }, []);
 
     return (
-        <nav className="bg-blue-piece-100 w-full p-4">
+        <nav className="bg-blue-piece-100 w-full p-4 z-50 relative">
             <div className="flex container mx-auto justify-between items-center">
                 <div>
                     <Image 
@@ -76,8 +72,7 @@ export default function Navbar() {
                     </button>
                 </div>
             </div>
-            {/* Dropdown Menu */}
-            <div id="dropdownMenu" className="hidden md:hidden bg-blue-piece-100 text-blue-piece-300 font-roboto text-base md:text-lg absolute top-16 left-0 w-full p-4">
+            <div id="dropdownMenu" className="hidden md:hidden bg-blue-piece-100 text-blue-piece-300 font-roboto text-base md:text-lg absolute top-16 left-0 w-full p-4 z-50">
                 <ul className="flex flex-col items-center space-y-4">
                     <li>
                         <Link href='/home' className="hover:text-white">Home</Link>

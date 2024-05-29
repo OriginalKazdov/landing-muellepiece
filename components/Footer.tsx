@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function Footer() {
     return (
-        <footer className="bg-blue-piece-100 w-full p-4 mt-8">
+        <footer className="bg-blue-piece-100 w-full p-4">
             <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
                 <div className="flex items-center mb-4 md:mb-0">
                     <Image 
@@ -21,7 +21,7 @@ export default function Footer() {
                     <Link href='/contact' className="text-white font-roboto hover:text-gray-300">
                         Contact Us
                     </Link>
-                    <a href="https://discord.com/invite/yourdiscordlink" target="_blank" rel="noopener noreferrer" className="text-white font-roboto hover:text-gray-300">
+                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-white font-roboto hover:text-gray-300">
                         Join Discord
                     </a>
                 </div>
