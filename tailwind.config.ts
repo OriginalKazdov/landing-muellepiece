@@ -7,7 +7,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   prefix: "",
   theme: {
     container: {
@@ -78,18 +78,18 @@ const config = {
           to: { height: "0" },
         },
         scroll: {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-400%)' },
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-500%)' },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        scroll: 'scroll 60s linear infinite'
+        scroll: 'scroll 50s linear infinite',
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config
 
-export default config
+export default config;
