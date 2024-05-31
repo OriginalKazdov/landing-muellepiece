@@ -36,13 +36,15 @@ export default function Navbar() {
         <nav className="bg-blue-piece-100 w-full p-4 z-50 relative">
             <div className="flex container mx-auto justify-between items-center">
                 <div>
-                    <Image 
-                        src='/logomp.png' 
-                        alt="logo" 
-                        width={50} 
-                        height={50}
-                        style={{ borderRadius: '50%' }}
-                    />
+                    <Link href='/home'>
+                        <Image 
+                            src='/logomp.png' 
+                            alt="logo" 
+                            width={50} 
+                            height={50}
+                            style={{ borderRadius: '50%' }}
+                        />
+                    </Link>
                 </div>
                 <div className="hidden md:flex space-x-4 text-blue-piece-300 font-roboto text-base md:text-lg">
                     <ul className="flex space-x-4">
