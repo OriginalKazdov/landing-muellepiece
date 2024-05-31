@@ -19,10 +19,10 @@ export default function Footer() {
                 </div>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
                     <Link href='/contact' className="text-white font-roboto hover:text-gray-300">
-                        Contact Us
+                        Contactanos
                     </Link>
                     <a href="#" target="_blank" rel="noopener noreferrer" className="text-white font-roboto hover:text-gray-300">
-                        Join Discord
+                        Discord
                     </a>
                 </div>
             </div>

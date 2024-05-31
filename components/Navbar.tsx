@@ -47,22 +47,22 @@ export default function Navbar() {
                 <div className="hidden md:flex space-x-4 text-blue-piece-300 font-roboto text-base md:text-lg">
                     <ul className="flex space-x-4">
                         <li>
-                            <Link href='/home' className="hover:text-white">Home</Link>
+                            <Link href='/home' className="hover:text-white">Inicio</Link>
                         </li>
                         <li>
-                            <Link href='/about' className="hover:text-white">About Us</Link>
+                            <Link href='/about' className="hover:text-white">Acerca</Link>
                         </li>
                         <li>
-                            <Link href='/features' className="hover:text-white">Features</Link>
+                            <Link href='/features' className="hover:text-white">Caracteristicas</Link>
                         </li>
                         <li>
-                            <Link href='/team' className="hover:text-white">Team</Link>
+                            <Link href='/team' className="hover:text-white">Equipo</Link>
                         </li>
                         <li>
-                            <Link href='/testimonials' className="hover:text-white">Testimonials</Link>
+                            <Link href='/testimonials' className="hover:text-white">Testimoniales</Link>
                         </li>
                         <li>
-                            <Link href='/contact' className="hover:text-white">Contact Us</Link>
+                            <Link href='/contact' className="hover:text-white">Contactanos</Link>
                         </li>
                     </ul>
                 </div>
