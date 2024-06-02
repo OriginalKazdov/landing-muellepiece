@@ -6,7 +6,7 @@ export default function Component() {
     <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center space-y-4 mb-8 md:mb-12">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white">Meet Our Team</h2>
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white">Conoce a nuestro equipo</h2>
           <p className="max-w-[700px] mx-auto text-gray-200 md:text-xl dark:text-gray-200">
             Get to know the talented individuals behind our success.
           </p>
