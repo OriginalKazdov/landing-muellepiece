@@ -70,7 +70,7 @@ export default function About() {
                             Podes visitar nuestro Google Sites para ver nuestra wiki del servidor.
                         </p>
                         <div className='flex justify-center'>
-                            <Button className='mt-4 px-4 py-2 text-sm font-semibold text-white bg-blue-piece-200 hover:bg-blue-piece-300 hover:text-blue-piece-100 shadow-md transition duration-300 rounded-xl'>
+                            <Button className='mt-4 px-4 py-2 sm:px-4 sm:py-2 md:px-8 md:py-6 md:text-lg text-sm font-semibold text-white bg-blue-piece-200 hover:bg-blue-piece-300 hover:text-blue-piece-100 shadow-md transition duration-300 rounded-xl'>
                                 Visitar Wiki
                             </Button>
                         </div>
