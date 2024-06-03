@@ -120,33 +120,33 @@ const ZapIcon: FC<React.SVGProps<SVGSVGElement>> = (props) => (
 const features = [
   {
     icon: <CompassIcon />,
-    title: "Explore New Worlds",
-    description: "Discover a vast and diverse world to explore, filled with hidden treasures and exciting adventures.",
+    title: "Explora",
+    description: "Descubre un mundo amplio y diverso para explorar, lleno de tesoros ocultos y emocionantes aventuras.",
   },
   {
     icon: <LayersIcon />,
-    title: "Customizable Builds",
-    description: "Unleash your creativity and build your dream structures with our extensive customization options.",
+    title: "Construcciones Custom",
+    description: "Descubre construcciones customizadas, con una amplia gama de opciones y detalles únicos.",
   },
   {
     icon: <UsersIcon />,
-    title: "Thriving Community",
-    description: "Join a welcoming and active community of Minecraft enthusiasts who share your passion for the game.",
+    title: "Comunidad Próspera",
+    description: "Únete a una comunidad acogedora y activa, y fanaticos del mundo de One Piece a traves de nuestro servidor de Minecraft que comparten tu pasión por el juego.",
   },
   {
     icon: <ZapIcon />,
-    title: "Powerful Plugins",
-    description: "Enhance your gameplay experience with our carefully curated selection of powerful plugins.",
+    title: "Plugins",
+    description: "Mejoramos tu experiencia de juego con nuestra cuidada selección de plugins.",
   },
   {
     icon: <ShieldIcon />,
-    title: "Secure Environment",
-    description: "Experience a safe and moderated environment where you can enjoy your Minecraft adventures without worry.",
+    title: "Moderacion activa",
+    description: "Experimenta un entorno seguro y moderado donde puedes disfrutar de tus aventuras en Minecraft sin preocupaciones.",
   },
   {
     icon: <GiftIcon />,
-    title: "Exclusive Rewards",
-    description: "Earn exclusive rewards and perks for your dedication and contributions to our Minecraft community.",
+    title: "Recompensas Exclusivas",
+    description: "Gana recompensas y beneficios exclusivos por tu dedicación y contribuciones a nuestra comunidad de Minecraft.",
   },
 ];
 
@@ -156,9 +156,9 @@ const Features: FC = () => {
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">Características</h2>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">Características del servidor</h2>
             <p className="max-w-[900px] text-white md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Explore the exciting features that make our Minecraft server a must-try experience for all players.
+            Explora las emocionantes características que hacen de nuestro servidor de Minecraft una experiencia que todos los jugadores deben probar.
             </p>
           </div>
         </div>

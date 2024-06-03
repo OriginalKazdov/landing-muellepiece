@@ -8,7 +8,7 @@ export default function Component() {
         <div className="text-center space-y-4 mb-8 md:mb-12">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white">Conoce a nuestro equipo</h2>
           <p className="max-w-[700px] mx-auto text-gray-200 md:text-xl dark:text-gray-200">
-            Get to know the talented individuals behind our success.
+          Conoce a los talentosos individuos detrás de nuestro éxito.
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-6 md:gap-8">
@@ -47,20 +47,20 @@ const teamMembers = [
   {
     image: '/carr1.png',
     name: 'XxAstaxX',
-    role: 'Owner y Diseñador de Muellepiece',
+    role: 'Fundador y Diseñador de Muellepiece',
     description: 'Asta es el visionario detrás de Muellepiece, fundador y diseñador. Lidera este proyecto desde su concepción, enfocandose en brindar la mejor experiencia posible para el jugador.',
   },
   {
     image: '/carr2.png',
     name: 'Nouraq',
-    role: 'Owner y Administrador de NPCs y Construcciones',
+    role: 'Fundador y Administrador de NPCs y Construcciones',
     description: 'Descripcion de Nour',
   },
   {
     image: '/carr3.png',
     name: 'Maxi-Yami',
-    role: 'Owner y Administrador de Sistemas',
-    description: 'Maxi yami descripcion',
+    role: 'Fundador y Administrador de Sistemas',
+    description: 'Maxi-Yami, programador y proveedor del servidor, se dedica a arreglar errores y problemas internos. Prefiere no ser mencionado; si lo haces, te llevarás una sorpresa. No es muy activo en los chats generales. Le enorgullece pertenecer al staff, ya que los compañeros son muy divertidos y amables.',
   },
   {
     image: '/carr4.png',
@@ -72,13 +72,13 @@ const teamMembers = [
     image: '/carr4.png',
     name: 'Rodolfo',
     role: 'Administrador y Economista del servidor',
-    description: 'Rodolfo descripcion',
+    description: 'Rodolfo es un veterano de Muellepiece con gran experiencia y sabiduría. Se encarga de la economía del servidor y está siempre disponible para escuchar a los miembros. Para cualquier problema o consejo, pueden acudir a él.',
   },
   {
     image: '/carr4.png',
     name: 'Karma',
     role: 'Administrador y Manager de Discord',
-    description: 'Karma descripcion',
+    description: 'Karma es el manager del discord, administrador y el que ayuda a los nuevos en el servidor a entenderlo, suele ayudar a la gente dentro del servidor con las dudas que puede responder.',
   },
   {
     image: '/carr4.png',
@@ -89,7 +89,7 @@ const teamMembers = [
   {
     image: '/carr4.png',
     name: 'Kazdov',
-    role: 'Programador y moderador de Muellepiece',
+    role: 'Programador y Moderador de Muellepiece',
     description: 'Kazdov descripcion',
   },
 ];
