@@ -92,7 +92,7 @@ export default function Navbar() {
                         <Link href='/testimonials' className="hover:text-white">Testimonials</Link>
                     </li>
                     <li>
-                        <Link href='/contact' className="hover:text-white">Contact Us</Link>
+                        <Link href='/tienda' className="hover:text-white">Tienda</Link>
                     </li>
                 </ul>
             </div>
