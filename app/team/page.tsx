@@ -78,7 +78,7 @@ const teamMembers = [
     image: '/karma.png',
     name: 'Karma',
     role: 'Supervisor General',
-    description: 'Karma es el manager del discord, supervisor y el que ayuda a los nuevos en el servidor a entenderlo, suele ayudar a la gente dentro del servidor con las dudas que puede responder.',
+    description: 'Karma es uno de los Supervisores Generales, que ayuda a los nuevos en el servidor a entenderlo y ayuda a la gente dentro del servidor con las dudas de los usuarios.',
   },
   {
     image: '/carr4.png',
@@ -87,9 +87,9 @@ const teamMembers = [
     description: 'Meca descripcion',
   },
   {
-    image: '/carr4.png',
+    image: '/kazdov.jpg',
     name: 'Kazdov',
     role: 'Programador y Moderador de Muellepiece',
-    description: 'Kazdov descripcion',
+    description: 'Kazdov es el programador web y moderador del servidor. Garantiza el buen funcionamiento del sitio y mantiene la comunidad ordenada y segura con profesionalismo y dedicación.',
   },
 ];
