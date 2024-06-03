@@ -89,19 +89,19 @@ export default function Navbar() {
             <div id="dropdownMenu" className="hidden md:hidden bg-blue-piece-100 text-blue-piece-300 font-roboto text-base md:text-lg absolute top-16 left-0 w-full p-4 z-50">
                 <ul className="flex flex-col items-center space-y-4">
                     <li>
-                        <Link href='/home' className="hover:text-white">Home</Link>
+                        <Link href='/home' className="hover:text-white">Inicio</Link>
                     </li>
                     <li>
-                        <Link href='/about' className="hover:text-white">About Us</Link>
+                        <Link href='/about' className="hover:text-white">Acerca</Link>
                     </li>
                     <li>
-                        <Link href='/features' className="hover:text-white">Features</Link>
+                        <Link href='/features' className="hover:text-white">Caracteristicas</Link>
                     </li>
                     <li>
-                        <Link href='/team' className="hover:text-white">Team</Link>
+                        <Link href='/team' className="hover:text-white">Equipo</Link>
                     </li>
                     <li>
-                        <Link href='/testimonials' className="hover:text-white">Testimonials</Link>
+                        <Link href='/testimonials' className="hover:text-white">Testimoniales</Link>
                     </li>
                     <li>
                         <Link href='/tienda' className="hover:text-white">Tienda</Link>
