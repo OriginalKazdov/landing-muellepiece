@@ -45,13 +45,13 @@ export default function Component() {
 
 const teamMembers = [
   {
-    image: '/carr1.png',
+    image: '/asta.png',
     name: 'XxAstaxX',
     role: 'Fundador y Diseñador de Muellepiece',
     description: 'Asta es el visionario detrás de Muellepiece, fundador y diseñador. Lidera este proyecto desde su concepción, enfocandose en brindar la mejor experiencia posible para el jugador.',
   },
   {
-    image: '/carr2.png',
+    image: '/nour.png',
     name: 'Nouraq',
     role: 'Fundador y Administrador de NPCs y Construcciones',
     description: 'Descripcion de Nour',
@@ -83,7 +83,7 @@ const teamMembers = [
   {
     image: '/carr4.png',
     name: 'Meca',
-    role: 'Administrador',
+    role: 'Supervisor General',
     description: 'Meca descripcion',
   },
   {
