@@ -75,10 +75,10 @@ const teamMembers = [
     description: 'Rodolfo es un veterano de Muellepiece con gran experiencia y sabiduría. Se encarga de la economía del servidor y está siempre disponible para escuchar a los miembros. Para cualquier problema o consejo, pueden acudir a él.',
   },
   {
-    image: '/carr4.png',
+    image: '/karma.png',
     name: 'Karma',
-    role: 'Administrador y Manager de Discord',
-    description: 'Karma es el manager del discord, administrador y el que ayuda a los nuevos en el servidor a entenderlo, suele ayudar a la gente dentro del servidor con las dudas que puede responder.',
+    role: 'Supervisor General',
+    description: 'Karma es el manager del discord, supervisor y el que ayuda a los nuevos en el servidor a entenderlo, suele ayudar a la gente dentro del servidor con las dudas que puede responder.',
   },
   {
     image: '/carr4.png',
