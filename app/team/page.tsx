@@ -57,7 +57,7 @@ const teamMembers = [
     description: 'Descripcion de Nour',
   },
   {
-    image: '/carr3.png',
+    image: '/maxiyami.png',
     name: 'Maxi-Yami',
     role: 'Fundador y Administrador de Sistemas',
     description: 'Maxi-Yami, programador y proveedor del servidor, se dedica a arreglar errores y problemas internos. Prefiere no ser mencionado; si lo haces, te llevarás una sorpresa. No es muy activo en los chats generales. Le enorgullece pertenecer al staff, ya que los compañeros son muy divertidos y amables.',
