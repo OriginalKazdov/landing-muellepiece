@@ -79,7 +79,7 @@ export default function Home() {
                     <h1 className="text-4xl md:text-6xl font-bold font-openSans text-white">MuellePiece</h1>
                     <p className="mt-4 text-lg md:text-xl font-openSans text-white font-bold">Únete a nuestro servidor de Minecraft y comunidad de Discord</p>
                     <Button asChild className='mt-6 px-6 py-3 text-lg font-semibold text-white bg-blue-piece-200 hover:bg-blue-piece-300 hover:text-blue-piece-100 shadow-md transition duration-300 rounded-xl'>
-                        <Link href="/contact">Contactanos</Link>
+                        <Link href="/">Discord</Link>
                     </Button>
                 </div>
             </div>

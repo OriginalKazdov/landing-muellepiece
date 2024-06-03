@@ -1,4 +1,3 @@
-// app/about/page.jsx
 import Image from 'next/image';
 import { Button } from "@/components/ui/button"
 
@@ -6,7 +5,7 @@ export default function About() {
     return (
         <div className='bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300 py-10'>
             <div className='container mx-auto px-4'>
-                <h2 className='text-3xl font-roboto text-center text-white mb-8'>Acerca de nosotros</h2>
+                <h2 className='text-3xl font-bold tracking-tighter sm:text-5xl text-center text-white mb-8'>Acerca de nosotros</h2>
                 <div className='flex flex-col items-center space-y-12'>
                     <div className='flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8'>
                         <div className='w-full md:w-1/2'>
