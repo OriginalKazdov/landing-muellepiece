@@ -32,6 +32,18 @@ export default function Navbar() {
         };
     }, []);
 
+    useEffect(() => {
+        const links = document.querySelectorAll('#dropdownMenu a');
+        const handleLinkClick = () => {
+            setIsOpen(false);
+        };
+
+        links.forEach(link => link.addEventListener('click', handleLinkClick));
+        return () => {
+            links.forEach(link => link.removeEventListener('click', handleLinkClick));
+        };
+    }, []);
+
     return (
         <nav className="bg-blue-piece-100 w-full p-4 z-50 relative">
             <div className="flex container mx-auto justify-between items-center">
