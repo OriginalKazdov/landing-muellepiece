@@ -71,14 +71,14 @@ const teamMembers = [
   {
     image: '/carr4.png',
     name: 'Rodolfo',
-    role: 'Administrador y Economista del servidor',
+    role: 'Community Manager y Economista del servidor',
     description: 'Rodolfo es un veterano de Muellepiece con gran experiencia y sabiduría. Se encarga de la economía del servidor y está siempre disponible para escuchar a los miembros. Para cualquier problema o consejo, pueden acudir a él.',
   },
   {
     image: '/karma.png',
     name: 'Karma',
-    role: 'Supervisor General',
-    description: 'Karma es uno de los Supervisores Generales, que ayuda a los nuevos en el servidor a entenderlo y ayuda a la gente dentro del servidor con las dudas de los usuarios.',
+    role: 'Community Manager',
+    description: 'Karma es uno de los Community Manager, que ayuda a los nuevos en el servidor a entenderlo y ayuda a la gente dentro del servidor con las dudas de los usuarios.',
   },
   {
     image: '/carr4.png',
@@ -89,7 +89,7 @@ const teamMembers = [
   {
     image: '/kazdov.jpg',
     name: 'Kazdov',
-    role: 'Programador y Moderador de Muellepiece',
+    role: 'Programador y Supervisor General de Muellepiece',
     description: 'Kazdov es el programador web y moderador del servidor. Garantiza el buen funcionamiento del sitio y mantiene la comunidad ordenada y segura con profesionalismo y dedicación.',
   },
 ];
