@@ -69,6 +69,12 @@ const teamMembers = [
     description: 'Deloko descripcion',
   },
   {
+    image: '/shhal.png',
+    name: 'lShh4l',
+    role: 'Administrador y scripter de NPCs',
+    description: 'lShh4l es uno de los miembros del Staff más activos y frecuentemente juega contigo. Puedes contar con él para cualquier duda, desde el manejo de misiones y NPCs hasta temas más complejos. Su prioridad es que te sientas cómodo y disfrutes la mejor experiencia de One Piece en el servidor.',
+  },
+  {
     image: '/carr4.png',
     name: 'Rodolfo',
     role: 'Community Manager y Economista del servidor',
@@ -90,6 +96,6 @@ const teamMembers = [
     image: '/kazdov.jpg',
     name: 'Kazdov',
     role: 'Programador y Supervisor General de Muellepiece',
-    description: 'Kazdov es el programador web y moderador del servidor. Garantiza el buen funcionamiento del sitio y mantiene la comunidad ordenada y segura con profesionalismo y dedicación.',
+    description: 'Kazdov es el programador web y Supervisor General del servidor. Garantiza el buen funcionamiento del sitio y mantiene la comunidad ordenada y segura con profesionalismo y dedicación.',
   },
 ];
