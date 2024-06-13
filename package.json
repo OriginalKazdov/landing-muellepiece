@@ -6,9 +6,12 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "node prisma/seed.js"
   },
   "dependencies": {
+    "@paypal/checkout-server-sdk": "^1.0.3",
+    "@prisma/client": "^3.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -17,7 +20,6 @@
     "next": "^14.2.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "stripe": "^15.10.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
   },

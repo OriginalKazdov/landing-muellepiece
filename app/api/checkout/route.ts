@@ -1,34 +1,65 @@
-// app/api/checkout/route.ts
-import { NextResponse } from 'next/server';
-import Stripe from 'stripe';
-import db from '../../../utils/db';
+import { NextRequest, NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
+import paypal from '@paypal/checkout-server-sdk';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2024-04-10',
-});
+const prisma = new PrismaClient();
 
-export async function POST(request: Request) {
-  const { cartItems, minecraftNickname, email } = await request.json();
-  
-  // Calcula el total del pedido
-  const totalAmount = cartItems.reduce((total: number, item: any) => total + item.price * item.quantity, 0);
+const environment = new paypal.core.SandboxEnvironment(process.env.PAYPAL_CLIENT_ID, process.env.PAYPAL_CLIENT_SECRET);
+const client = new paypal.core.PayPalHttpClient(environment);
 
-  // Crear el pago en Stripe
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: totalAmount * 100, // Stripe maneja cantidades en centavos
-    currency: 'eur',
-    metadata: { minecraftNickname, email },
-  });
+export async function POST(req: NextRequest) {
+  try {
+    const { cartItems, minecraftNickname, email } = await req.json();
 
-  // Guardar el pedido en la base de datos
-  const [orderResult] = await db.query('INSERT INTO orders (minecraft_nickname, order_date, status, total, email, payment_id) VALUES (?, NOW(), ?, ?, ?, ?)', [minecraftNickname, 'pending', totalAmount, email, paymentIntent.id]);
+    if (!Array.isArray(cartItems) || cartItems.length === 0) {
+      return NextResponse.json({ error: 'Cart items are required and should be an array' }, { status: 400 });
+    }
 
-  const orderId = (orderResult as any).insertId;
+    const totalAmount = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
-  // Guardar los elementos del pedido en la base de datos
-  for (const item of cartItems) {
-    await db.query('INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)', [orderId, item.id, item.quantity, item.price]);
+    const order = await prisma.order.create({
+      data: {
+        minecraftNickname,
+        orderDate: new Date(),
+        status: 'pending',
+        total: totalAmount,
+        email,
+        orderItems: {
+          create: cartItems.map(item => ({
+            productId: item.id,
+            quantity: item.quantity,
+            price: item.price,
+          })),
+        },
+      },
+    });
+
+    const request = new paypal.orders.OrdersCreateRequest();
+    request.prefer("return=representation");
+    request.requestBody({
+      intent: 'CAPTURE',
+      purchase_units: [{
+        amount: {
+          currency_code: 'EUR',
+          value: totalAmount.toFixed(2),
+        },
+      }],
+      application_context: {
+        return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout/success`,
+        cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout/cancel`,
+      },
+    });
+
+    const response = await client.execute(request);
+    await prisma.order.update({
+      where: { id: order.id },
+      data: { paymentId: response.result.id },
+    });
+
+    return NextResponse.json({ id: response.result.id, approveUrl: response.result.links.find((link: { rel: string; }) => link.rel === 'approve').href, dbOrderId: order.id });
+  } catch (err) {
+    const error = err as Error
+    console.error('Error creating order:', error);
+    return NextResponse.json({ error: 'Error creating order', details: error.message }, { status: 500 });
   }
-
-  return NextResponse.json({ clientSecret: paymentIntent.client_secret, orderId });
 }

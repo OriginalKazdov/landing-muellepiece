@@ -1,25 +1,15 @@
 // app/api/products/route.ts
-import { NextResponse } from 'next/server';
-import db from '../../../utils/db';
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const type = searchParams.get('type');
-  const category = searchParams.get('category');
+import { NextRequest, NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
 
-  let query = 'SELECT * FROM products WHERE 1=1';
-  const params: (string | number)[] = [];
+const prisma = new PrismaClient();
 
-  if (type) {
-    query += ' AND type = ?';
-    params.push(type as string);
+export async function GET(req: NextRequest) {
+  try {
+    const products = await prisma.product.findMany();
+    return NextResponse.json(products);
+  } catch (error) {
+    return NextResponse.json({ error: 'Error fetching products' }, { status: 500 });
   }
-
-  if (category) {
-    query += ' AND category_id = ?';
-    params.push(Number(category));
-  }
-
-  const [rows] = await db.query(query, params);
-  return NextResponse.json(rows);
 }
