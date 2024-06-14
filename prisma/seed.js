@@ -1,40 +1,49 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+const categories = [
+  { name: "Cosméticos" },
+  { name: "Mini Power-Ups" },
+  { name: "Random Item" },
+  { name: "Vips" },
+  { name: "Reducción de la Tienda" },
+  { name: "Tienda Específica" }
+];
+
+const products = [
+  { name: "Cosmético Pequeño", description: "Cosmético estético pequeño.", price: 0.55, stock: 100, imageUrl: "url-to-image", categoryId: 1, type: "estético", tier: 1 },
+  { name: "Cosmético Grande", description: "Cosmético estético grande.", price: 0.99, stock: 100, imageUrl: "url-to-image", categoryId: 1, type: "estético", tier: 1 },
+  { name: "Cosmético Llamativo", description: "Cosmético estético llamativo.", price: 1.30, stock: 100, imageUrl: "url-to-image", categoryId: 1, type: "estético", tier: 2 },
+  { name: "Skin Completa", description: "Skin completa para tu personaje.", price: 1.90, stock: 50, imageUrl: "url-to-image", categoryId: 1, type: "estético", tier: 3 },
+  { name: "Objetos Exclusivos", description: "Objetos de máxima exclusividad.", price: 5.00, stock: 20, imageUrl: "url-to-image", categoryId: 1, type: "beneficios", tier: 4 },
+  { name: "Mini Power-Up", description: "Pequeño beneficio para el usuario.", price: 2.00, stock: 100, imageUrl: "url-to-image", categoryId: 2, type: "beneficio", tier: 1 },
+  { name: "Random Item", description: "Participa en una ruleta para ganar un objeto.", price: 1.00, stock: 100, imageUrl: "url-to-image", categoryId: 3, type: "suerte", tier: 1 },
+  { name: "Vip Enano", description: "Vip enano con beneficios.", price: 2.99, stock: 10, imageUrl: "url-to-image", categoryId: 4, type: "vip", tier: 1 },
+  { name: "Vip Pequeño", description: "Vip pequeño con beneficios.", price: 5.00, stock: 10, imageUrl: "url-to-image", categoryId: 4, type: "vip", tier: 2 },
+  { name: "Vip Mediano", description: "Vip mediano con beneficios.", price: 8.67, stock: 10, imageUrl: "url-to-image", categoryId: 4, type: "vip", tier: 3 },
+  { name: "Vip Gigante", description: "Vip gigante con beneficios.", price: 9.99, stock: 10, imageUrl: "url-to-image", categoryId: 4, type: "vip", tier: 4 },
+  { name: "Vip Nouraquiano", description: "Vip nouraquiano con máximos beneficios.", price: 14.99, stock: 10, imageUrl: "url-to-image", categoryId: 4, type: "vip", tier: 5 },
+  { name: "Reducción 25%", description: "Reducción del 25% en la tienda.", price: 2.30, stock: 50, imageUrl: "url-to-image", categoryId: 5, type: "descuento", tier: 1 },
+  { name: "Reducción 40%", description: "Reducción del 40% en la tienda.", price: 3.60, stock: 50, imageUrl: "url-to-image", categoryId: 5, type: "descuento", tier: 2 },
+  { name: "Reducción 50%", description: "Reducción del 50% en la tienda.", price: 4.60, stock: 50, imageUrl: "url-to-image", categoryId: 5, type: "descuento", tier: 3 },
+  { name: "Tienda Específica", description: "Acceso a una tienda exclusiva.", price: 10.00, stock: 10, imageUrl: "url-to-image", categoryId: 6, type: "acceso", tier: 1 }
+];
+
 async function main() {
-  await prisma.category.createMany({
-    data: [
-      { name: 'Tier 1' },
-      { name: 'Tier 2' },
-      { name: 'Tier 3' },
-      { name: 'Tier 4' },
-      { name: 'Random Item' },
-      { name: 'Vips' },
-      { name: 'Reducción de la tienda' },
-      { name: 'Tienda específica' },
-    ],
-  });
-
-  await prisma.product.createMany({
-    data: [
-      { name: 'Cosmético Pequeño', description: 'Cosmético estético pequeño', price: 0.55, stock: 100, imageUrl: 'url1', categoryId: 1, type: 'cosmetic', tier: 1 },
-      { name: 'Cosmético Grande', description: 'Cosmético estético grande', price: 0.99, stock: 100, imageUrl: 'url2', categoryId: 1, type: 'cosmetic', tier: 1 },
-      { name: 'Cosmético Llamativo', description: 'Cosmético llamativo', price: 1.30, stock: 100, imageUrl: 'url3', categoryId: 2, type: 'cosmetic', tier: 2 },
-      { name: 'Parte del Cuerpo', description: 'Parte del cuerpo estético', price: 1.40, stock: 100, imageUrl: 'url4', categoryId: 3, type: 'cosmetic', tier: 3 },
-      { name: 'Skin Completa', description: 'Skin completa', price: 1.90, stock: 100, imageUrl: 'url5', categoryId: 3, type: 'cosmetic', tier: 3 },
-      { name: 'Objeto Exclusivo', description: 'Objeto exclusivo con beneficios', price: 3.00, stock: 100, imageUrl: 'url6', categoryId: 4, type: 'cosmetic', tier: 4 },
-      { name: 'Item Aleatorio', description: 'Item aleatorio de ruleta', price: 2.00, stock: 100, imageUrl: 'url7', categoryId: 5, type: 'random', tier: 1 },
-      { name: 'Vip Enano', description: 'Rango Vip enano', price: 5.99, stock: 100, imageUrl: 'url8', categoryId: 6, type: 'vip', tier: 1 },
-      { name: 'Reducción de 25%', description: 'Reducción de tienda del 25%', price: 2.30, stock: 100, imageUrl: 'url9', categoryId: 7, type: 'discount', tier: 1 },
-      { name: 'Tienda Específica', description: 'Acceso a tienda específica', price: 10.00, stock: 100, imageUrl: 'url10', categoryId: 8, type: 'special', tier: 1 },
-    ],
-  });
-
-  console.log('Seeding complete');
+  for (const category of categories) {
+    await prisma.category.create({
+      data: category
+    });
+  }
+  for (const product of products) {
+    await prisma.product.create({
+      data: product
+    });
+  }
 }
 
 main()
-  .catch((e) => {
+  .catch(e => {
     console.error(e);
     process.exit(1);
   })
