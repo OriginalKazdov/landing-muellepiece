@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { BurgerIcon, CloseIcon } from '../utils/icons';
+import { BurgerIcon, CloseIcon } from '../../utils/icons';
 import React, { useState, useEffect } from 'react';
 
 export default function Navbar() {
