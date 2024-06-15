@@ -1,3 +1,5 @@
+// app/api/checkout/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import paypal from '@paypal/checkout-server-sdk';
@@ -45,8 +47,8 @@ export async function POST(req: NextRequest) {
         },
       }],
       application_context: {
-        return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout/success`,
-        cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout/cancel`,
+        return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
+        cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
       },
     });
 

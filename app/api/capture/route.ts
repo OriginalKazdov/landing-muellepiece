@@ -1,3 +1,5 @@
+// app/api/capture/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import paypal from '@paypal/checkout-server-sdk';
@@ -18,6 +20,11 @@ export async function POST(req: NextRequest) {
 
     if (!order) {
       return NextResponse.json({ error: 'Order not found in database' }, { status: 404 });
+    }
+
+    // Check if the order is already captured
+    if (order.status === 'completed') {
+      return NextResponse.json({ message: 'Order already captured' });
     }
 
     const request = new paypal.orders.OrdersCaptureRequest(orderID);
