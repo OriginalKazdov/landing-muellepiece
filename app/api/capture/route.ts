@@ -6,7 +6,10 @@ import paypal from '@paypal/checkout-server-sdk';
 
 const prisma = new PrismaClient();
 
-const environment = new paypal.core.SandboxEnvironment(process.env.PAYPAL_CLIENT_ID, process.env.PAYPAL_CLIENT_SECRET);
+const environment = new paypal.core.SandboxEnvironment(
+  process.env.PAYPAL_CLIENT_ID,
+  process.env.PAYPAL_CLIENT_SECRET
+);
 const client = new paypal.core.PayPalHttpClient(environment);
 
 export async function POST(req: NextRequest) {
@@ -19,13 +22,17 @@ export async function POST(req: NextRequest) {
     });
 
     if (!order) {
+      console.error('Order not found in database:', orderID);
       return NextResponse.json({ error: 'Order not found in database' }, { status: 404 });
     }
 
     // Check if the order is already captured
     if (order.status === 'completed') {
+      console.log('Order already captured:', orderID);
       return NextResponse.json({ message: 'Order already captured' });
     }
+
+    console.log('Attempting to capture order:', orderID);
 
     const request = new paypal.orders.OrdersCaptureRequest(orderID);
     request.requestBody({});
@@ -36,9 +43,11 @@ export async function POST(req: NextRequest) {
       data: { status: 'completed' },
     });
 
+    console.log('Capture successful:', capture);
+
     return NextResponse.json({ capture });
   } catch (err) {
-    const error = err as Error
+    const error = err as Error;
     console.error('Error capturing payment:', error);
     return NextResponse.json({ error: 'Error capturing payment', details: error.message }, { status: 500 });
   }

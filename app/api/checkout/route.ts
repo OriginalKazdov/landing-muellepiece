@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
         },
       }],
       application_context: {
-        return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
+        return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/capture`,
         cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
       },
     });
