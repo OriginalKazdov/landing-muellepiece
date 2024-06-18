@@ -57,7 +57,7 @@ const ProductsPage = () => {
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => (
-            <Card key={product.id} className="rounded-lg overflow-hidden group shadow-lg">
+            <Card key={product.id} className="rounded-2xl overflow-hidden group shadow-lg">
               <Link href={`/tienda/${product.id}`} className="block" prefetch={false}>
                 <CardHeader className="overflow-hidden">
                   <Image
@@ -80,12 +80,12 @@ const ProductsPage = () => {
                 </CardDescription>
                 <div className="flex gap-2">
                   <Link href={`/tienda/${product.id}`}>
-                    <Button size="sm" className="flex-1 bg-blue-piece-200 hover:bg-blue-piece-300 text-white">
+                    <Button size="sm" className="flex-1 bg-blue-piece-200 hover:bg-blue-piece-300 text-white rounded-2xl">
                       Comprar
                     </Button>
                   </Link>
                   <Link href={`/tienda/${product.id}`}>
-                    <Button size="sm" variant="outline" className="flex-1 border-blue-piece-200 text-blue-piece-200 hover:bg-blue-piece-200 hover:text-white">
+                    <Button size="sm" variant="outline" className="flex-1 border-blue-piece-200 text-blue-piece-200 hover:bg-blue-piece-200 hover:text-white rounded-2xl">
                       Ver Más
                     </Button>
                   </Link>
