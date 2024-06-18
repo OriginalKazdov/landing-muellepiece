@@ -9,7 +9,7 @@ const client = new paypal.core.PayPalHttpClient(environment);
 
 export async function POST(req: NextRequest) {
   try {
-    const { productId, minecraftNickname, email, isOneTimePurchase, isCrewPurchase } = await req.json();
+    const { productId, minecraftNickname, email, priceType } = await req.json();
 
     const product = await prisma.product.findUnique({
       where: { id: productId },
@@ -19,31 +19,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
-    let price: number;
-    if (isCrewPurchase) {
-      if (product.crewPrice === null || product.crewPrice === undefined) {
-        return NextResponse.json({ error: 'Crew price not available for this product' }, { status: 400 });
-      }
-      price = product.crewPrice;
-    } else {
-      if (product.type === 'reduction') {
-        if (product.oneTimePrice === null || product.oneTimePrice === undefined) {
-          return NextResponse.json({ error: 'One-time price not available for this product' }, { status: 400 });
-        }
-        price = product.oneTimePrice;
-      } else {
-        if (isOneTimePurchase) {
-          if (product.oneTimePrice === null || product.oneTimePrice === undefined) {
-            return NextResponse.json({ error: 'One-time price not available for this product' }, { status: 400 });
-          }
-          price = product.oneTimePrice;
-        } else {
-          if (product.limitedDurationPrice === null || product.limitedDurationPrice === undefined) {
-            return NextResponse.json({ error: 'Limited duration price not available for this product' }, { status: 400 });
-          }
-          price = product.limitedDurationPrice;
-        }
-      }
+    const price = priceType === 'uniquePay' ? product.uniquePay : product.durationPay;
+    if (!price) {
+      return NextResponse.json({ error: 'Invalid price type' }, { status: 400 });
     }
 
     const order = await prisma.order.create({
@@ -53,8 +31,7 @@ export async function POST(req: NextRequest) {
         status: 'pending',
         total: price,
         email,
-        isOneTimePurchase: product.type !== 'reduction' ? isOneTimePurchase : undefined,
-        isCrewPurchase,
+        priceType,
         price,
         productId,
       },
@@ -85,7 +62,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id: response.result.id, approveUrl: response.result.links.find((link: { rel: string; }) => link.rel === 'approve').href, dbOrderId: order.id });
   } catch (err) {
     const error = err as Error;
-    console.error('Error creating order:', error);
     return NextResponse.json({ error: 'Error creating order', details: error.message }, { status: 500 });
   }
 }

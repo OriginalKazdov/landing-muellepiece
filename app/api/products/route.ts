@@ -8,12 +8,14 @@ export async function GET(req: NextRequest) {
   const categoryId = searchParams.get('categoryId');
 
   try {
-    const products = await prisma.product.findMany({
-      where: categoryId ? { categoryId: parseInt(categoryId) } : {},
-      include: {
-        category: true,
-      },
-    });
+    const products = categoryId
+      ? await prisma.product.findMany({
+          where: { categoryId: Number(categoryId) },
+          include: { category: true },
+        })
+      : await prisma.product.findMany({
+          include: { category: true },
+        });
     return NextResponse.json(products);
   } catch (error) {
     return NextResponse.json({ error: 'Error fetching products' }, { status: 500 });

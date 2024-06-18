@@ -1,5 +1,3 @@
-// Prisma schema
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -16,33 +14,27 @@ model Category {
 }
 
 model Product {
-  id                    Int          @id @default(autoincrement())
-  name                  String
-  description           String?
-  imageUrl              String
-  stock                 Int
-  oneTimePrice          Float        // Precio de pago único indefinido
-  limitedDurationPrice  Float        // Precio de pago con duración limitada
-  crewPrice             Float?       // Precio para la tripulación (solo para reducciones de tienda)
-  duration              Int?         // Duración en días para productos de duración limitada
-  categoryId            Int
-  category              Category     @relation(fields: [categoryId], references: [id])
-  type                  String       // Tipo de producto (cosmetic, vip, reduction)
-  tier                  Int?
-  orders                Order[]      // Relación inversa con Order
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  imageUrl    String
+  uniquePay   Float?
+  durationPay Float?
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
+  orders      Order[]
 }
 
 model Order {
-  id                 Int          @id @default(autoincrement())
-  minecraftNickname  String
-  orderDate          DateTime     @default(now())
-  status             String
-  total              Float
-  email              String
-  paymentId          String?      @unique
-  isOneTimePurchase  Boolean      // true for one-time purchase, false for limited duration
-  isCrewPurchase     Boolean      // true if the purchase is for the crew
-  price              Float        // Actual price paid for the product
-  productId          Int
-  product            Product      @relation(fields: [productId], references: [id])
+  id               Int         @id @default(autoincrement())
+  minecraftNickname String
+  orderDate        DateTime    @default(now())
+  status           String
+  total            Float
+  email            String
+  paymentId        String?     @unique
+  priceType        String      // 'uniquePay' or 'durationPay'
+  price            Float
+  productId        Int
+  product          Product      @relation(fields: [productId], references: [id])
 }

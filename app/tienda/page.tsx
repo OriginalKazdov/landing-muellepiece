@@ -3,14 +3,12 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Product, Category } from "@prisma/client";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -35,8 +33,9 @@ const ProductsPage = () => {
     fetchProducts();
   }, [selectedCategory]);
 
-  const handleRedirect = (productId: number) => {
-    router.push(`/tienda/${productId}`);
+  const handlePurchase = (productId: number, priceType: 'uniquePay' | 'durationPay') => {
+    // Redirect to product detail page with priceType as query parameter
+    window.location.href = `/tienda/${productId}?priceType=${priceType}`;
   };
 
   return (
@@ -71,23 +70,26 @@ const ProductsPage = () => {
             <h2 className="text-xl font-bold">{product.name}</h2>
             <p className="text-gray-700">{product.description}</p>
             <p className="text-lg font-semibold">
-              {product.type === 'reduction' 
-                ? `Individual: $${product.oneTimePrice} | Crew: $${product.crewPrice}` 
-                : (
-                  <>
-                    {product.oneTimePrice ? `One-time: $${product.oneTimePrice}` : null}
-                    {product.limitedDurationPrice ? ` Monthly: $${product.limitedDurationPrice}` : null}
-                  </>
-                )
-              }
+              {product.uniquePay ? `One-time: $${product.uniquePay}` : null}
+              {product.durationPay ? ` Monthly: $${product.durationPay}` : null}
             </p>
             <div className="flex flex-col gap-2">
-              <button
-                onClick={() => handleRedirect(product.id)}
-                className="px-4 py-2 bg-blue-500 text-white rounded"
-              >
-                Comprar
-              </button>
+              {product.uniquePay && (
+                <button
+                  onClick={() => handlePurchase(product.id, 'uniquePay')}
+                  className="px-4 py-2 bg-blue-500 text-white rounded"
+                >
+                  Comprar Pago Único
+                </button>
+              )}
+              {product.durationPay && (
+                <button
+                  onClick={() => handlePurchase(product.id, 'durationPay')}
+                  className="px-4 py-2 bg-green-500 text-white rounded"
+                >
+                  Comprar Pago Mensual
+                </button>
+              )}
               <Link href={`/tienda/${product.id}`}>
                 Ver más
               </Link>

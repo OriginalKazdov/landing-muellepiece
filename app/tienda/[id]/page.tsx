@@ -9,6 +9,7 @@ const ProductDetailPage = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [minecraftNickname, setMinecraftNickname] = useState("");
   const [email, setEmail] = useState("");
+  const [priceType, setPriceType] = useState<'uniquePay' | 'durationPay'>('uniquePay'); 
   const { id } = useParams();
   const router = useRouter();
 
@@ -24,26 +25,19 @@ const ProductDetailPage = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const priceTypeParam = params.get('priceType') as 'uniquePay' | 'durationPay';
+    if (priceTypeParam) {
+      setPriceType(priceTypeParam);
+    }
+  }, []);
+
   if (!product) {
     return <div>Loading...</div>;
   }
 
-  const validateEmail = (email: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
-
-  const handlePurchase = async (isOneTimePurchase: boolean, isCrewPurchase: boolean) => {
-    if (!minecraftNickname) {
-      alert("Minecraft Nickname is required");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      alert("Please enter a valid email address");
-      return;
-    }
-
+  const handlePurchase = async () => {
     const response = await fetch("/api/checkout", {
       method: "POST",
       headers: {
@@ -53,8 +47,7 @@ const ProductDetailPage = () => {
         productId: product.id,
         minecraftNickname,
         email,
-        isCrewPurchase,
-        isOneTimePurchase: product.type !== 'reduction' ? isOneTimePurchase : undefined,
+        priceType,
       }),
     });
 
@@ -78,10 +71,8 @@ const ProductDetailPage = () => {
         <div className="ml-8">
           <p className="text-lg">{product.description}</p>
           <p className="text-xl font-semibold">
-            {product.type === 'reduction' 
-              ? `Individual: $${product.oneTimePrice ?? 0} | Crew: $${product.crewPrice ?? 0}` 
-              : `Price: $${product.oneTimePrice ?? 0}`
-            }
+            {product.uniquePay ? `One-time: $${product.uniquePay}` : null}
+            {product.durationPay ? ` Monthly: $${product.durationPay}` : null}
           </p>
           <div className="mt-4">
             <label className="block mb-2">Minecraft Nickname:</label>
@@ -101,39 +92,12 @@ const ProductDetailPage = () => {
               className="border p-2 rounded w-full"
             />
           </div>
-          <div className="mt-4 flex flex-col gap-2">
-            {product.type === 'reduction' ? (
-              <>
-                <button
-                  onClick={() => handlePurchase(true, false)}
-                  className="px-4 py-2 bg-blue-500 text-white rounded"
-                >
-                  Comprar Individual
-                </button>
-                <button
-                  onClick={() => handlePurchase(true, true)}
-                  className="px-4 py-2 bg-green-500 text-white rounded"
-                >
-                  Comprar Crew
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={() => handlePurchase(true, false)}
-                  className="px-4 py-2 bg-blue-500 text-white rounded"
-                >
-                  Comprar Pago Único
-                </button>
-                <button
-                  onClick={() => handlePurchase(false, false)}
-                  className="px-4 py-2 bg-green-500 text-white rounded"
-                >
-                  Comprar Pago Mensual
-                </button>
-              </>
-            )}
-          </div>
+          <button
+            onClick={handlePurchase}
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            Comprar
+          </button>
         </div>
       </div>
     </div>
