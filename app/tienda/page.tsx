@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Product, Category } from "@prisma/client";
+import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/card";
+import { Button } from "../components/ui/button";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -37,7 +39,7 @@ const ProductsPage = () => {
     <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300">
       <div className="container px-4 md:px-6">
         <div className="mb-8 md:mb-10 lg:mb-12">
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">Nuestros Productos Destacados</h2>
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl text-white">Nuestros Productos</h2>
         </div>
         <div className="mb-4">
           <select
@@ -55,33 +57,41 @@ const ProductsPage = () => {
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => (
-            <div key={product.id} className="rounded-lg shadow-lg overflow-hidden group">
+            <Card key={product.id} className="rounded-lg overflow-hidden group shadow-lg">
               <Link href={`/tienda/${product.id}`} className="block" prefetch={false}>
-                <Image
-                  src={product.imageUrl}
-                  alt={product.name}
-                  width={400}
-                  height={400}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+                <CardHeader className="overflow-hidden">
+                  <Image
+                    src={product.imageUrl}
+                    alt={product.name}
+                    width={400}
+                    height={400}
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </CardHeader>
               </Link>
-              <div className="p-4 bg-white dark:bg-gray-950">
-                <h3 className="text-lg font-semibold mb-2">
-                  <Link href={`/tienda/${product.id}`} className="hover:text-primary transition-colors" prefetch={false}>
+              <CardContent className="p-4 bg-white dark:bg-gray-950">
+                <CardTitle className="text-lg font-semibold mb-2">
+                  <Link href={`/tienda/${product.id}`} className="hover:text-blue-piece-200 transition-colors" prefetch={false}>
                     {product.name}
                   </Link>
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400 mb-4">{product.description}</p>
+                </CardTitle>
+                <CardDescription className="text-gray-500 dark:text-gray-400 mb-4">
+                  {product.description}
+                </CardDescription>
                 <div className="flex gap-2">
                   <Link href={`/tienda/${product.id}`}>
-                    <button className="px-4 py-2 bg-blue-piece-500 text-white rounded">Comprar</button>
+                    <Button size="sm" className="flex-1 bg-blue-piece-200 hover:bg-blue-piece-300 text-white">
+                      Comprar
+                    </Button>
                   </Link>
                   <Link href={`/tienda/${product.id}`}>
-                    <button className="px-4 py-2 border border-blue-piece-500 text-blue-piece-500 rounded">Ver Más</button>
+                    <Button size="sm" variant="outline" className="flex-1 border-blue-piece-200 text-blue-piece-200 hover:bg-blue-piece-200 hover:text-white">
+                      Ver Más
+                    </Button>
                   </Link>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
