@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import { Product } from "@prisma/client";
+import { Label } from "@/app/components/ui/label";
+import { Input } from "@/app/components/ui/input";
+import { Button } from "@/app/components/ui/button";
 
 const ProductDetailPage = () => {
   const [product, setProduct] = useState<Product | null>(null);
@@ -87,66 +90,85 @@ const ProductDetailPage = () => {
   }
 
   return (
-    <div className="container mx-auto">
-      <h1 className="text-2xl font-bold my-4">{product.name}</h1>
-      <div className="flex">
-        <Image
-          src={product.imageUrl}
-          alt={product.name}
-          width={500}
-          height={500}
-          className="object-cover"
-        />
-        <div className="ml-8">
-          <p className="text-lg">{product.description}</p>
-          <p className="text-xl font-semibold">
-            {product.uniquePay ? `One-time: $${product.uniquePay}` : null}
-            {product.durationPay ? ` Monthly: $${product.durationPay}` : null}
-          </p>
-          <div className="mt-4">
-            <label className="block mb-2">Minecraft Nickname:</label>
-            <input
-              type="text"
-              value={minecraftNickname}
-              onChange={(e) => setMinecraftNickname(e.target.value)}
-              className="border p-2 rounded w-full"
-            />
-            {errors.nickname && <p className="text-red-500">{errors.nickname}</p>}
+    <div className="w-full min-h-screen bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300">
+      <div className="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-8">
+        <div className="flex-1">
+          <div className="space-y-4">
+            <div className="aspect-w-3 aspect-h-2">
+              <Image
+                src={product.imageUrl}
+                alt={product.name}
+                width={600}
+                height={400}
+                className="object-cover rounded-lg w-full"
+              />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">{product.name}</h2>
+              <p className="mt-2 text-gray-100">{product.description}</p>
+            </div>
           </div>
-          <div className="mt-4">
-            <label className="block mb-2">Email:</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="border p-2 rounded w-full"
-            />
-            {errors.email && <p className="text-red-500">{errors.email}</p>}
+        </div>
+        <div className="w-full max-w-md bg-white rounded-lg p-8 shadow-lg">
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">Checkout</h2>
+              <p className="mt-2 text-gray-600">
+                Por favor ingrese su nickname de Minecraft y correo electrónico para completar el proceso de compra.
+              </p>
+            </div>
+            <form className="space-y-4" onSubmit={(e) => {e.preventDefault(); handlePurchase();}}>
+              <div>
+                <Label htmlFor="nickname">Minecraft Nickname</Label>
+                <Input 
+                  id="nickname" 
+                  type="text" 
+                  placeholder="Ingrese su nickname de Minecraft" 
+                  required 
+                  value={minecraftNickname}
+                  onChange={(e) => setMinecraftNickname(e.target.value)}
+                  className="w-full"
+                />
+                {errors.nickname && <p className="text-red-500">{errors.nickname}</p>}
+              </div>
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input 
+                  id="email" 
+                  type="email" 
+                  placeholder="Ingrese su correo electrónico" 
+                  required 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full"
+                />
+                {errors.email && <p className="text-red-500">{errors.email}</p>}
+              </div>
+              <div className="mt-4">
+                {product.uniquePay && (
+                  <Button 
+                    type="button" 
+                    onClick={() => setPriceType('uniquePay')} 
+                    className={`w-full mb-2 ${priceType === 'uniquePay' ? 'bg-blue-piece-500' : 'bg-blue-piece-300'} text-white hover:bg-blue-piece-400`}
+                  >
+                    Comprar Pago Único - ${product.uniquePay}
+                  </Button>
+                )}
+                {product.durationPay && (
+                  <Button 
+                    type="button" 
+                    onClick={() => setPriceType('durationPay')} 
+                    className={`w-full ${priceType === 'durationPay' ? 'bg-green-700' : 'bg-green-500'} text-white hover:bg-green-600`}
+                  >
+                    Comprar Pago Mensual - ${product.durationPay}
+                  </Button>
+                )}
+              </div>
+              <Button type="submit" className="w-full bg-blue-piece-500 hover:bg-blue-piece-400 text-white">
+                Comprar
+              </Button>
+            </form>
           </div>
-          <div className="mt-4">
-            {product.uniquePay && (
-              <button
-                onClick={() => setPriceType('uniquePay')}
-                className={`px-4 py-2 ${priceType === 'uniquePay' ? 'bg-blue-700' : 'bg-blue-500'} text-white rounded mr-2`}
-              >
-                Comprar Pago Único
-              </button>
-            )}
-            {product.durationPay && (
-              <button
-                onClick={() => setPriceType('durationPay')}
-                className={`px-4 py-2 ${priceType === 'durationPay' ? 'bg-green-700' : 'bg-green-500'} text-white rounded`}
-              >
-                Comprar Pago Mensual
-              </button>
-            )}
-          </div>
-          <button
-            onClick={handlePurchase}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-          >
-            Comprar
-          </button>
         </div>
       </div>
     </div>
