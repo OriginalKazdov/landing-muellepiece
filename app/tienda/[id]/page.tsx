@@ -12,6 +12,10 @@ const ProductDetailPage = () => {
   const [priceType, setPriceType] = useState<'uniquePay' | 'durationPay'>('uniquePay'); 
   const { id } = useParams();
   const router = useRouter();
+  const [errors, setErrors] = useState<{ nickname: string; email: string }>({
+    nickname: '',
+    email: '',
+  });
 
   useEffect(() => {
     if (id) {
@@ -33,18 +37,39 @@ const ProductDetailPage = () => {
     }
   }, []);
 
-  if (!product) {
-    return <div>Loading...</div>;
-  }
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
 
   const handlePurchase = async () => {
+    let valid = true;
+    const newErrors = { nickname: '', email: '' };
+
+    if (!minecraftNickname) {
+      newErrors.nickname = 'Nickname is required';
+      valid = false;
+    }
+
+    if (!email) {
+      newErrors.email = 'Email is required';
+      valid = false;
+    } else if (!validateEmail(email)) {
+      newErrors.email = 'Invalid email address';
+      valid = false;
+    }
+
+    setErrors(newErrors);
+
+    if (!valid) return;
+
     const response = await fetch("/api/checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        productId: product.id,
+        productId: product?.id,
         minecraftNickname,
         email,
         priceType,
@@ -56,6 +81,10 @@ const ProductDetailPage = () => {
       window.location.href = data.approveUrl;
     }
   };
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="container mx-auto">
@@ -82,6 +111,7 @@ const ProductDetailPage = () => {
               onChange={(e) => setMinecraftNickname(e.target.value)}
               className="border p-2 rounded w-full"
             />
+            {errors.nickname && <p className="text-red-500">{errors.nickname}</p>}
           </div>
           <div className="mt-4">
             <label className="block mb-2">Email:</label>
@@ -91,6 +121,25 @@ const ProductDetailPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="border p-2 rounded w-full"
             />
+            {errors.email && <p className="text-red-500">{errors.email}</p>}
+          </div>
+          <div className="mt-4">
+            {product.uniquePay && (
+              <button
+                onClick={() => setPriceType('uniquePay')}
+                className={`px-4 py-2 ${priceType === 'uniquePay' ? 'bg-blue-700' : 'bg-blue-500'} text-white rounded mr-2`}
+              >
+                Comprar Pago Único
+              </button>
+            )}
+            {product.durationPay && (
+              <button
+                onClick={() => setPriceType('durationPay')}
+                className={`px-4 py-2 ${priceType === 'durationPay' ? 'bg-green-700' : 'bg-green-500'} text-white rounded`}
+              >
+                Comprar Pago Mensual
+              </button>
+            )}
           </div>
           <button
             onClick={handlePurchase}
