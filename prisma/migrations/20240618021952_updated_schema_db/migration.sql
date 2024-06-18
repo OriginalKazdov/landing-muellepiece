@@ -1,0 +1,9 @@
+-- AlterTable
+ALTER TABLE "Order" ALTER COLUMN "isCrewPurchase" DROP DEFAULT,
+ALTER COLUMN "isOneTimePurchase" DROP DEFAULT,
+ALTER COLUMN "price" DROP DEFAULT,
+ALTER COLUMN "productId" DROP DEFAULT;
+
+-- AlterTable
+ALTER TABLE "Product" ALTER COLUMN "limitedDurationPrice" DROP DEFAULT,
+ALTER COLUMN "oneTimePrice" DROP DEFAULT;
