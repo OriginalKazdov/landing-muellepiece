@@ -1,5 +1,3 @@
-// app/tienda/[id]/page.tsx
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -30,16 +28,33 @@ const ProductDetailPage = () => {
     return <div>Loading...</div>;
   }
 
-  const handlePurchase = async () => {
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  const handlePurchase = async (isOneTimePurchase: boolean, isCrewPurchase: boolean) => {
+    if (!minecraftNickname) {
+      alert("Minecraft Nickname is required");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
     const response = await fetch("/api/checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        cartItems: [{ id: product.id, quantity: 1, price: product.price }],
+        productId: product.id,
         minecraftNickname,
         email,
+        isCrewPurchase,
+        isOneTimePurchase: product.type !== 'reduction' ? isOneTimePurchase : undefined,
       }),
     });
 
@@ -62,7 +77,12 @@ const ProductDetailPage = () => {
         />
         <div className="ml-8">
           <p className="text-lg">{product.description}</p>
-          <p className="text-xl font-semibold">${product.price}</p>
+          <p className="text-xl font-semibold">
+            {product.type === 'reduction' 
+              ? `Individual: $${product.oneTimePrice ?? 0} | Crew: $${product.crewPrice ?? 0}` 
+              : `Price: $${product.oneTimePrice ?? 0}`
+            }
+          </p>
           <div className="mt-4">
             <label className="block mb-2">Minecraft Nickname:</label>
             <input
@@ -81,12 +101,39 @@ const ProductDetailPage = () => {
               className="border p-2 rounded w-full"
             />
           </div>
-          <button
-            onClick={handlePurchase}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-          >
-            Comprar
-          </button>
+          <div className="mt-4 flex flex-col gap-2">
+            {product.type === 'reduction' ? (
+              <>
+                <button
+                  onClick={() => handlePurchase(true, false)}
+                  className="px-4 py-2 bg-blue-500 text-white rounded"
+                >
+                  Comprar Individual
+                </button>
+                <button
+                  onClick={() => handlePurchase(true, true)}
+                  className="px-4 py-2 bg-green-500 text-white rounded"
+                >
+                  Comprar Crew
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => handlePurchase(true, false)}
+                  className="px-4 py-2 bg-blue-500 text-white rounded"
+                >
+                  Comprar Pago Único
+                </button>
+                <button
+                  onClick={() => handlePurchase(false, false)}
+                  className="px-4 py-2 bg-green-500 text-white rounded"
+                >
+                  Comprar Pago Mensual
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

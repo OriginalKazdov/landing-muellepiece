@@ -1,5 +1,3 @@
-// app/api/capture/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import paypal from '@paypal/checkout-server-sdk';

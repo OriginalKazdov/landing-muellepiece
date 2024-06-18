@@ -1,5 +1,3 @@
-// app/api/checkout/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import paypal from '@paypal/checkout-server-sdk';
@@ -11,28 +9,34 @@ const client = new paypal.core.PayPalHttpClient(environment);
 
 export async function POST(req: NextRequest) {
   try {
-    const { cartItems, minecraftNickname, email } = await req.json();
+    const { productId, minecraftNickname, email, isOneTimePurchase, isCrewPurchase } = await req.json();
 
-    if (!Array.isArray(cartItems) || cartItems.length === 0) {
-      return NextResponse.json({ error: 'Cart items are required and should be an array' }, { status: 400 });
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+    });
+
+    if (!product) {
+      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
-    const totalAmount = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    let price: number;
+    if (isCrewPurchase) {
+      price = product.crewPrice ?? 0;
+    } else {
+      price = product.type === 'reduction' ? product.oneTimePrice ?? 0 : (isOneTimePurchase ? product.oneTimePrice ?? 0 : product.limitedDurationPrice ?? 0);
+    }
 
     const order = await prisma.order.create({
       data: {
         minecraftNickname,
         orderDate: new Date(),
         status: 'pending',
-        total: totalAmount,
+        total: price,
         email,
-        orderItems: {
-          create: cartItems.map(item => ({
-            productId: item.id,
-            quantity: item.quantity,
-            price: item.price,
-          })),
-        },
+        isOneTimePurchase: product.type !== 'reduction' ? isOneTimePurchase : undefined,
+        isCrewPurchase,
+        price,
+        productId,
       },
     });
 
@@ -43,7 +47,7 @@ export async function POST(req: NextRequest) {
       purchase_units: [{
         amount: {
           currency_code: 'EUR',
-          value: totalAmount.toFixed(2),
+          value: price.toFixed(2),
         },
       }],
       application_context: {
@@ -60,7 +64,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ id: response.result.id, approveUrl: response.result.links.find((link: { rel: string; }) => link.rel === 'approve').href, dbOrderId: order.id });
   } catch (err) {
-    const error = err as Error
+    const error = err as Error;
     console.error('Error creating order:', error);
     return NextResponse.json({ error: 'Error creating order', details: error.message }, { status: 500 });
   }
