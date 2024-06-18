@@ -21,9 +21,29 @@ export async function POST(req: NextRequest) {
 
     let price: number;
     if (isCrewPurchase) {
-      price = product.crewPrice ?? 0;
+      if (product.crewPrice === null || product.crewPrice === undefined) {
+        return NextResponse.json({ error: 'Crew price not available for this product' }, { status: 400 });
+      }
+      price = product.crewPrice;
     } else {
-      price = product.type === 'reduction' ? product.oneTimePrice ?? 0 : (isOneTimePurchase ? product.oneTimePrice ?? 0 : product.limitedDurationPrice ?? 0);
+      if (product.type === 'reduction') {
+        if (product.oneTimePrice === null || product.oneTimePrice === undefined) {
+          return NextResponse.json({ error: 'One-time price not available for this product' }, { status: 400 });
+        }
+        price = product.oneTimePrice;
+      } else {
+        if (isOneTimePurchase) {
+          if (product.oneTimePrice === null || product.oneTimePrice === undefined) {
+            return NextResponse.json({ error: 'One-time price not available for this product' }, { status: 400 });
+          }
+          price = product.oneTimePrice;
+        } else {
+          if (product.limitedDurationPrice === null || product.limitedDurationPrice === undefined) {
+            return NextResponse.json({ error: 'Limited duration price not available for this product' }, { status: 400 });
+          }
+          price = product.limitedDurationPrice;
+        }
+      }
     }
 
     const order = await prisma.order.create({
