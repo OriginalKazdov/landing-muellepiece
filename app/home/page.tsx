@@ -67,8 +67,8 @@ export default function Home() {
                                 <Image
                                     src={src}
                                     alt={`Image ${index + 1}`}
-                                    layout="fill"
-                                    objectFit="cover"
+                                    fill
+                                    style={{ objectFit: 'cover' }}
                                     className="object-cover blur-sm"
                                 />
                             </div>
@@ -96,8 +96,8 @@ export default function Home() {
                             <Image
                                 src={card.bgImage}
                                 alt={card.title}
-                                layout="fill"
-                                objectFit="cover"
+                                fill
+                                style={{ objectFit: 'cover' }}
                                 className="object-cover filter blur-sm"
                             />
                             <div className="absolute inset-0 bg-black opacity-30"></div>
