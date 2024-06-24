@@ -42,7 +42,7 @@ const ProductsPage = () => {
     <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300 min-h-screen">
       <div className="container px-4 md:px-6 flex flex-col justify-between h-full">
         <div>
-          <div className="mb-8 md:mb-10 lg:mb-12">
+          <div className="mb-8 md:mb-10 lg:mb-12 text-center">
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl text-white">Nuestros Productos</h2>
           </div>
           <div className="mb-8 flex flex-wrap justify-center space-x-4">

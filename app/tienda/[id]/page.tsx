@@ -10,6 +10,7 @@ import { Button } from "@/app/components/ui/button";
 
 const ProductDetailPage = () => {
   const [product, setProduct] = useState<Product | null>(null);
+  const [category, setCategory] = useState<string | null>(null);
   const [minecraftNickname, setMinecraftNickname] = useState("");
   const [email, setEmail] = useState("");
   const [priceType, setPriceType] = useState<'uniquePay' | 'durationPay'>('uniquePay'); 
@@ -26,6 +27,7 @@ const ProductDetailPage = () => {
         const response = await fetch(`/api/products/${id}`);
         const data = await response.json();
         setProduct(data);
+        setCategory(data.category.name);
       };
 
       fetchProduct();
@@ -92,8 +94,9 @@ const ProductDetailPage = () => {
   return (
     <div className="w-full min-h-screen bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300">
       <div className="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-8">
+        {/* Lado izquierdo: información del producto */}
         <div className="flex-1">
-          <div className="space-y-4">
+          <div className="bg-white p-6 rounded-lg shadow-lg space-y-4">
             <div className="aspect-w-3 aspect-h-2">
               <Image
                 src={product.imageUrl}
@@ -103,16 +106,17 @@ const ProductDetailPage = () => {
                 className="object-cover rounded-lg w-full"
               />
             </div>
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight">{product.name}</h2>
-              <p className="mt-2 text-gray-100">{product.description}</p>
-            </div>
+            <h2 className="text-2xl font-bold tracking-tight text-gray-800">{product.name}</h2>
+            <p className="text-xl text-gray-800">Pago Unico: ${product.uniquePay}</p>
+            <p className="text-xl text-gray-800">Pago Mensual: ${product.durationPay}</p>
+            <p className="mt-2 text-gray-600">{product.description}</p>
           </div>
         </div>
+        {/* Lado derecho: opciones de compra y formulario */}
         <div className="w-full max-w-md bg-white rounded-lg p-8 shadow-lg">
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight">Checkout</h2>
+              <h2 className="text-2xl font-bold tracking-tight text-gray-800">Checkout</h2>
               <p className="mt-2 text-gray-600">
                 Por favor ingrese su nickname de Minecraft y correo electrónico para completar el proceso de compra.
               </p>
@@ -144,26 +148,27 @@ const ProductDetailPage = () => {
                 />
                 {errors.email && <p className="text-red-500">{errors.email}</p>}
               </div>
-              <div className="mt-4">
-                {product.uniquePay && (
-                  <Button 
-                    type="button" 
-                    onClick={() => setPriceType('uniquePay')} 
-                    className={`w-full mb-2 ${priceType === 'uniquePay' ? 'bg-blue-piece-500' : 'bg-blue-piece-300'} text-white hover:bg-blue-piece-400`}
-                  >
-                    Comprar Pago Único - ${product.uniquePay}
-                  </Button>
-                )}
-                {product.durationPay && (
-                  <Button 
-                    type="button" 
-                    onClick={() => setPriceType('durationPay')} 
-                    className={`w-full ${priceType === 'durationPay' ? 'bg-green-700' : 'bg-green-500'} text-white hover:bg-green-600`}
-                  >
-                    Comprar Pago Mensual - ${product.durationPay}
-                  </Button>
-                )}
-              </div>
+              {category !== 'Specific Store' && category !== 'Reduction Store' && (
+                <div className="mt-4">
+                  <p className="text-gray-600">Seleccione el tipo de pago:</p>
+                  <div className="flex flex-col space-y-2">
+                    <Button 
+                      type="button" 
+                      onClick={() => setPriceType('uniquePay')} 
+                      className={`w-full ${priceType === 'uniquePay' ? 'bg-blue-piece-500' : 'bg-blue-piece-300'} text-white hover:bg-blue-piece-400`}
+                    >
+                      Pago Único - ${product.uniquePay}
+                    </Button>
+                    <Button 
+                      type="button" 
+                      onClick={() => setPriceType('durationPay')} 
+                      className={`w-full ${priceType === 'durationPay' ? 'bg-green-700' : 'bg-green-500'} text-white hover:bg-green-600`}
+                    >
+                      Pago Mensual - ${product.durationPay}
+                    </Button>
+                  </div>
+                </div>
+              )}
               <Button type="submit" className="w-full bg-blue-piece-500 hover:bg-blue-piece-400 text-white">
                 Comprar
               </Button>
