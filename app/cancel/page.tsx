@@ -64,6 +64,7 @@ const CancelContent = () => {
           >
             Volver a la tienda
           </button>
+          
         </>
       )}
     </div>
