@@ -22,6 +22,7 @@ const ProductDetailPage = () => {
     email: '',
   });
   const [loading, setLoading] = useState(true); // Estado para el indicador de carga
+  const [purchaseLoading, setPurchaseLoading] = useState(false); // Estado para el indicador de carga de la compra
 
   useEffect(() => {
     if (id) {
@@ -72,30 +73,37 @@ const ProductDetailPage = () => {
 
     if (!valid) return;
 
-    const response = await fetch("/api/checkout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        productId: product?.id,
-        minecraftNickname,
-        email,
-        priceType,
-      }),
-    });
+    setPurchaseLoading(true); // Activar el indicador de carga de la compra
 
-    const data = await response.json();
-    if (data.approveUrl) {
-      window.location.href = data.approveUrl;
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: product?.id,
+          minecraftNickname,
+          email,
+          priceType,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.approveUrl) {
+        window.location.href = data.approveUrl;
+      }
+    } catch (error) {
+      console.error("Error processing purchase:", error);
+      setPurchaseLoading(false); // Desactivar el indicador de carga de la compra si hay error
     }
   };
 
-  if (loading || !product) {
+  if (loading || !product || purchaseLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300">
         <Loader size={150} className="text-white" />
-        <p className="mt-4 text-xl text-white">Cargando Producto...</p>
+        <p className="mt-4 text-xl text-white">{purchaseLoading ? "Procesando Compra..." : "Cargando Producto..."}</p>
       </div>
     );
   }
@@ -165,6 +173,7 @@ const ProductDetailPage = () => {
                       type="button" 
                       onClick={() => setPriceType('uniquePay')} 
                       className={`w-full ${priceType === 'uniquePay' ? 'bg-blue-piece-500' : 'bg-blue-piece-300'} text-white hover:bg-blue-piece-400`}
+                      disabled={purchaseLoading} // Deshabilitar botón si está cargando
                     >
                       Pago Único - ${product.uniquePay}
                     </Button>
@@ -172,14 +181,19 @@ const ProductDetailPage = () => {
                       type="button" 
                       onClick={() => setPriceType('durationPay')} 
                       className={`w-full ${priceType === 'durationPay' ? 'bg-green-700' : 'bg-green-500'} text-white hover:bg-green-600`}
+                      disabled={purchaseLoading} // Deshabilitar botón si está cargando
                     >
                       Pago Mensual - ${product.durationPay}
                     </Button>
                   </div>
                 </div>
               )}
-              <Button type="submit" className="w-full bg-blue-piece-500 hover:bg-blue-piece-400 text-white">
-                Comprar
+              <Button 
+                type="submit" 
+                className="w-full bg-blue-piece-500 hover:bg-blue-piece-400 text-white flex justify-center items-center"
+                disabled={purchaseLoading} // Deshabilitar botón si está cargando
+              >
+                {purchaseLoading ? <Loader size={20} color="#ffffff" /> : 'Comprar'}
               </Button>
             </form>
           </div>
