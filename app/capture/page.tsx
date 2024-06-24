@@ -17,7 +17,7 @@ function CaptureContent() {
       const captureOrder = async () => {
         setIsCaptured(true); // Prevent duplicate captures
 
-        console.log('Attempting to capture order:', token);
+        console.log('Intentando capturar la orden:', token);
 
         try {
           const response = await fetch('/api/capture', {
@@ -30,18 +30,18 @@ function CaptureContent() {
 
           const data = await response.json();
           if (response.ok) {
-            console.log('Capture successful:', data);
-            setMessage('Payment successful! Your order has been captured.');
+            console.log('Captura exitosa:', data);
+            setMessage('¡Pago exitoso! Tu pedido ha sido capturado.');
           } else {
-            console.error('Error capturing payment:', data);
-            setMessage(`Error capturing payment: ${data.error}`);
+            console.error('Error capturando el pago:', data);
+            setMessage(`Error capturando el pago: ${data.error}`);
           }
         } catch (error) {
           console.error('Error:', error);
           if (error instanceof Error) {
-            setMessage(`Error capturing payment: ${error.message}`);
+            setMessage(`Error capturando el pago: ${error.message}`);
           } else {
-            setMessage('An unexpected error occurred');
+            setMessage('Ocurrió un error inesperado');
           }
         }
 
@@ -56,7 +56,7 @@ function CaptureContent() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300">
         <Loader size={60} className="text-white" />
-        <p className="mt-4 text-white text-lg">Processing your payment...</p>
+        <p className="mt-4 text-white text-lg">Procesando tu pago...</p>
       </div>
     );
   }
@@ -64,13 +64,13 @@ function CaptureContent() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300">
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-md text-center">
-        <h1 className="text-2xl font-bold mb-4">Payment Status</h1>
+        <h1 className="text-2xl font-bold mb-4">Estado del Pago</h1>
         <p className="mb-4">{message}</p>
         <button 
           onClick={() => router.push('/tienda')} 
           className="px-4 py-2 bg-blue-piece-500 hover:bg-blue-piece-400 text-white rounded-lg"
         >
-          Go back to shop
+          Volver a la tienda
         </button>
       </div>
     </div>
@@ -82,7 +82,7 @@ export default function CapturePage() {
     <Suspense fallback={
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300">
         <Loader size={60} className="text-white" />
-        <p className="mt-4 text-white text-lg">Loading...</p>
+        <p className="mt-4 text-white text-lg">Cargando...</p>
       </div>
     }>
       <CaptureContent />
