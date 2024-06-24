@@ -2,6 +2,7 @@
 
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Loader from '@/app/components/ui/Loader';
 
 function CaptureContent() {
   const [loading, setLoading] = useState(true);
@@ -52,21 +53,38 @@ function CaptureContent() {
   }, [token, isCaptured]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300">
+        <Loader size={60} className="text-white" />
+        <p className="mt-4 text-white text-lg">Processing your payment...</p>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h1>Payment Status</h1>
-      <p>{message}</p>
-      <button onClick={() => router.push('/tienda')}>Go back to shop</button>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300">
+      <div className="bg-white rounded-lg shadow-lg p-6 max-w-md text-center">
+        <h1 className="text-2xl font-bold mb-4">Payment Status</h1>
+        <p className="mb-4">{message}</p>
+        <button 
+          onClick={() => router.push('/tienda')} 
+          className="px-4 py-2 bg-blue-piece-500 hover:bg-blue-piece-400 text-white rounded-lg"
+        >
+          Go back to shop
+        </button>
+      </div>
     </div>
   );
 }
 
 export default function CapturePage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300">
+        <Loader size={60} className="text-white" />
+        <p className="mt-4 text-white text-lg">Loading...</p>
+      </div>
+    }>
       <CaptureContent />
     </Suspense>
   );
