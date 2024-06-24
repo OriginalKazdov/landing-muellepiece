@@ -1,10 +1,15 @@
+// app/api/checkout/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import paypal from '@paypal/checkout-server-sdk';
 
 const prisma = new PrismaClient();
 
-const environment = new paypal.core.SandboxEnvironment(process.env.PAYPAL_CLIENT_ID, process.env.PAYPAL_CLIENT_SECRET);
+const environment = new paypal.core.SandboxEnvironment(
+  process.env.PAYPAL_CLIENT_ID,
+  process.env.PAYPAL_CLIENT_SECRET
+);
 const client = new paypal.core.PayPalHttpClient(environment);
 
 export async function POST(req: NextRequest) {
@@ -48,8 +53,8 @@ export async function POST(req: NextRequest) {
         },
       }],
       application_context: {
-        return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/capture`,
-        cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
+        return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/capture?orderID=${order.id}`,
+        cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel?orderID=${order.id}`,
         brand_name: "MuellePiece",
         locale: "es-ES",
         user_action: "PAY_NOW",
@@ -66,5 +71,24 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     const error = err as Error;
     return NextResponse.json({ error: 'Error creating order', details: error.message }, { status: 500 });
+  }
+}
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const minecraftNickname = searchParams.get('minecraftNickname');
+
+  if (!minecraftNickname) {
+    return NextResponse.json({ error: 'minecraftNickname is required' }, { status: 400 });
+  }
+
+  try {
+    const orders = await prisma.order.findMany({
+      where: { minecraftNickname },
+      include: { product: true },
+    });
+    return NextResponse.json(orders);
+  } catch (error) {
+    return NextResponse.json({ error: 'Error fetching orders' }, { status: 500 });
   }
 }
