@@ -7,6 +7,7 @@ import { Product } from "@prisma/client";
 import { Label } from "@/app/components/ui/label";
 import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
+import Loader from "@/app/components/ui/Loader"; // Asegúrate de ajustar la ruta de importación según tu estructura de carpetas
 
 const ProductDetailPage = () => {
   const [product, setProduct] = useState<Product | null>(null);
@@ -20,14 +21,17 @@ const ProductDetailPage = () => {
     nickname: '',
     email: '',
   });
+  const [loading, setLoading] = useState(true); // Estado para el indicador de carga
 
   useEffect(() => {
     if (id) {
       const fetchProduct = async () => {
+        setLoading(true);
         const response = await fetch(`/api/products/${id}`);
         const data = await response.json();
         setProduct(data);
         setCategory(data.category.name);
+        setLoading(false);
       };
 
       fetchProduct();
@@ -87,8 +91,13 @@ const ProductDetailPage = () => {
     }
   };
 
-  if (!product) {
-    return <div>Loading...</div>;
+  if (loading || !product) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300">
+        <Loader size={150} className="text-white" />
+        <p className="mt-4 text-xl text-white">Cargando Producto...</p>
+      </div>
+    );
   }
 
   return (
