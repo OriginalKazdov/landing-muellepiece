@@ -18,7 +18,7 @@ export default function Footer() {
                     <span className="ml-2 text-white font-roboto text-sm md:text-base">&copy; 2024 MuellePiece. Todos los derechos reservados.</span>
                 </div>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
-                    <Link href='/contact' className="text-white font-roboto hover:text-gray-300">
+                    <Link href='#' className="text-white font-roboto hover:text-gray-300">
                         Contactanos
                     </Link>
                     <a href="#" target="_blank" rel="noopener noreferrer" className="text-white font-roboto hover:text-gray-300">

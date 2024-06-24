@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
     const categories = await prisma.category.findMany();
     return NextResponse.json(categories);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Error fetching categories' }, { status: 500 });
   }
 }

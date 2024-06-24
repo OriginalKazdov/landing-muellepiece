@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button } from "../components/ui/button"
+import { Button } from "../components/ui/button";
 import {
     Card,
     CardContent,
@@ -8,7 +8,7 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "../components/ui/card"
+} from "../components/ui/card";
 
 export default function Home() {
     const images = [
@@ -19,7 +19,7 @@ export default function Home() {
         '/carr5.png',
     ];
 
-    const duplicatedImages = [...images, ...images]
+    const duplicatedImages = [...images, ...images];
 
     // Array de objetos con información específica para cada tarjeta
     const cards = [
@@ -68,6 +68,7 @@ export default function Home() {
                                     src={src}
                                     alt={`Image ${index + 1}`}
                                     fill
+                                    sizes="100vw"
                                     style={{ objectFit: 'cover' }}
                                     className="object-cover blur-sm"
                                 />
@@ -97,6 +98,7 @@ export default function Home() {
                                 src={card.bgImage}
                                 alt={card.title}
                                 fill
+                                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                                 style={{ objectFit: 'cover' }}
                                 className="object-cover filter blur-sm"
                             />
