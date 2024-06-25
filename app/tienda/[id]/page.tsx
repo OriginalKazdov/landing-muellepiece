@@ -109,46 +109,36 @@ const ProductDetailPage = () => {
   }
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300">
-      <div className="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-8">
-        {/* Lado izquierdo: información del producto */}
-        <div className="flex-1">
-          <div className="bg-white p-6 rounded-lg shadow-lg space-y-4">
-            <div className="aspect-w-3 aspect-h-2">
-              <Image
-                src={product.imageUrl}
-                alt={product.name}
-                width={600}
-                height={400}
-                className="object-cover rounded-lg w-full"
-              />
-            </div>
-            <h2 className="text-2xl font-bold tracking-tight text-gray-800">{product.name}</h2>
-            <p className="text-xl text-gray-800">Pago Unico: ${product.uniquePay}</p>
-            <p className="text-xl text-gray-800">Pago Mensual: ${product.durationPay}</p>
-            <p className="mt-2 text-gray-600">{product.description}</p>
+    <div className="w-full min-h-screen bg-gradient-to-r from-blue-piece-500 via-blue-piece-400 to-blue-piece-300 flex items-center justify-center p-8">
+      <div className="max-w-6xl w-full bg-white rounded-2xl shadow-2xl flex flex-col md:flex-row overflow-hidden">
+        {/* Lado izquierdo: imagen del producto */}
+        <div className="flex-1 bg-gray-100 flex items-center justify-center">
+          <div className="p-8">
+            <Image
+              src={product.imageUrl}
+              alt={product.name}
+              width={500}
+              height={500}
+              className="object-cover rounded-2xl"
+            />
           </div>
         </div>
-        {/* Lado derecho: opciones de compra y formulario */}
-        <div className="w-full max-w-md bg-white rounded-lg p-8 shadow-lg">
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight text-gray-800">Checkout</h2>
-              <p className="mt-2 text-gray-600">
-                Por favor ingrese su nickname de Minecraft y correo electrónico para completar el proceso de compra.
-              </p>
-            </div>
+        {/* Lado derecho: información del producto y formulario */}
+        <div className="flex-1 p-8">
+          <h2 className="text-4xl font-bold text-gray-800">{product.name}</h2>
+          <p className="mt-4 text-gray-600">{product.description}</p>
+          <div className="mt-8">
             <form className="space-y-4" onSubmit={(e) => {e.preventDefault(); handlePurchase();}}>
               <div>
-                <Label htmlFor="nickname">Minecraft Nickname</Label>
+                <Label htmlFor="nickname">Nickname</Label>
                 <Input 
                   id="nickname" 
                   type="text" 
-                  placeholder="Ingrese su nickname de Minecraft" 
+                  placeholder="Enter your nickname" 
                   required 
                   value={minecraftNickname}
                   onChange={(e) => setMinecraftNickname(e.target.value)}
-                  className="w-full"
+                  className="w-full mt-2"
                 />
                 {errors.nickname && <p className="text-red-500">{errors.nickname}</p>}
               </div>
@@ -157,43 +147,43 @@ const ProductDetailPage = () => {
                 <Input 
                   id="email" 
                   type="email" 
-                  placeholder="Ingrese su correo electrónico" 
+                  placeholder="Enter your email" 
                   required 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full"
+                  className="w-full mt-2"
                 />
                 {errors.email && <p className="text-red-500">{errors.email}</p>}
               </div>
-              {category !== 'Specific Store' && category !== 'Reduction Store' && (
-                <div className="mt-4">
-                  <p className="text-gray-600">Seleccione el tipo de pago:</p>
-                  <div className="flex flex-col space-y-2">
-                    <Button 
-                      type="button" 
-                      onClick={() => setPriceType('uniquePay')} 
-                      className={`w-full ${priceType === 'uniquePay' ? 'bg-blue-piece-500' : 'bg-blue-piece-300'} text-white hover:bg-blue-piece-400`}
-                      disabled={purchaseLoading} // Deshabilitar botón si está cargando
-                    >
-                      Pago Único - ${product.uniquePay}
-                    </Button>
+              <div className="mt-4">
+                <p className="text-gray-600">Payment Options:</p>
+                <div className="flex flex-col space-y-4 mt-2">
+                  <Button 
+                    type="button" 
+                    onClick={() => setPriceType('uniquePay')} 
+                    className={`w-full ${priceType === 'uniquePay' ? 'bg-blue-piece-500' : 'bg-blue-piece-300'} text-white hover:bg-blue-piece-400 rounded-2xl`}
+                    disabled={purchaseLoading}
+                  >
+                    Permanent Pay - ${product.uniquePay}
+                  </Button>
+                  {product.durationPay && (
                     <Button 
                       type="button" 
                       onClick={() => setPriceType('durationPay')} 
-                      className={`w-full ${priceType === 'durationPay' ? 'bg-green-700' : 'bg-green-500'} text-white hover:bg-green-600`}
-                      disabled={purchaseLoading} // Deshabilitar botón si está cargando
+                      className={`w-full ${priceType === 'durationPay' ? 'bg-green-700' : 'bg-green-500'} text-white hover:bg-green-600 rounded-2xl`}
+                      disabled={purchaseLoading}
                     >
-                      Pago Mensual - ${product.durationPay}
+                      Limited Duration Pay - ${product.durationPay}
                     </Button>
-                  </div>
+                  )}
                 </div>
-              )}
+              </div>
               <Button 
                 type="submit" 
-                className="w-full bg-blue-piece-500 hover:bg-blue-piece-400 text-white flex justify-center items-center"
-                disabled={purchaseLoading} // Deshabilitar botón si está cargando
+                className="w-full bg-blue-piece-500 hover:bg-blue-piece-400 text-white flex justify-center items-center rounded-2xl mt-4"
+                disabled={purchaseLoading}
               >
-                {purchaseLoading ? <Loader size={20} color="#ffffff" /> : 'Comprar'}
+                {purchaseLoading ? <Loader size={20} color="#ffffff" /> : 'Purchase'}
               </Button>
             </form>
           </div>
