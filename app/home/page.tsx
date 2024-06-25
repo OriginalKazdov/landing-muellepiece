@@ -47,14 +47,6 @@ export default function Home() {
             link: '/team',
             bgImage: '/equipo.png' // Imagen de fondo para esta tarjeta
         },
-        {
-            title: 'No nos crees?',
-            description: 'Miralo por ti mismo',
-            content: 'Acercate a ver que opina la gente de nosotros',
-            buttonText: 'Testimonials',
-            link: '/testimonials',
-            bgImage: '/nonoscreesimg.png' // Imagen de fondo para esta tarjeta
-        }
     ];
 
     return (

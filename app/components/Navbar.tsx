@@ -73,9 +73,6 @@ export default function Navbar() {
                             <Link href='/team' className="hover:text-white">Equipo</Link>
                         </li>
                         <li>
-                            <Link href='/testimonials' className="hover:text-white">Testimoniales</Link>
-                        </li>
-                        <li>
                             <Link href='/tienda' className="hover:text-white">Tienda</Link>
                         </li>
                     </ul>
@@ -99,9 +96,6 @@ export default function Navbar() {
                     </li>
                     <li>
                         <Link href='/team' className="hover:text-white">Equipo</Link>
-                    </li>
-                    <li>
-                        <Link href='/testimonials' className="hover:text-white">Testimoniales</Link>
                     </li>
                     <li>
                         <Link href='/tienda' className="hover:text-white">Tienda</Link>
