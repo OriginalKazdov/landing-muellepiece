@@ -6,10 +6,17 @@ import paypal from '@paypal/checkout-server-sdk';
 
 const prisma = new PrismaClient();
 
-const environment = new paypal.core.SandboxEnvironment(
-  process.env.PAYPAL_CLIENT_ID,
-  process.env.PAYPAL_CLIENT_SECRET
-);
+// Seleccionar el entorno basado en la variable de entorno
+const environment = process.env.PAYPAL_ENVIRONMENT === 'live'
+  ? new paypal.core.LiveEnvironment(
+      process.env.PAYPAL_CLIENT_ID,
+      process.env.PAYPAL_CLIENT_SECRET
+    )
+  : new paypal.core.SandboxEnvironment(
+      process.env.PAYPAL_CLIENT_ID,
+      process.env.PAYPAL_CLIENT_SECRET
+    );
+
 const client = new paypal.core.PayPalHttpClient(environment);
 
 export async function POST(req: NextRequest) {
@@ -67,7 +74,11 @@ export async function POST(req: NextRequest) {
       data: { paymentId: response.result.id },
     });
 
-    return NextResponse.json({ id: response.result.id, approveUrl: response.result.links.find((link: { rel: string; }) => link.rel === 'approve').href, dbOrderId: order.id });
+    return NextResponse.json({
+      id: response.result.id,
+      approveUrl: response.result.links.find((link: { rel: string; }) => link.rel === 'approve').href,
+      dbOrderId: order.id
+    });
   } catch (err) {
     const error = err as Error;
     return NextResponse.json({ error: 'Error creating order', details: error.message }, { status: 500 });

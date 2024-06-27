@@ -1,13 +1,22 @@
+// app/api/capture/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import paypal from '@paypal/checkout-server-sdk';
 
 const prisma = new PrismaClient();
 
-const environment = new paypal.core.SandboxEnvironment(
-  process.env.PAYPAL_CLIENT_ID,
-  process.env.PAYPAL_CLIENT_SECRET
-);
+// Seleccionar el entorno basado en la variable de entorno
+const environment = process.env.PAYPAL_ENVIRONMENT === 'live'
+  ? new paypal.core.LiveEnvironment(
+      process.env.PAYPAL_CLIENT_ID,
+      process.env.PAYPAL_CLIENT_SECRET
+    )
+  : new paypal.core.SandboxEnvironment(
+      process.env.PAYPAL_CLIENT_ID,
+      process.env.PAYPAL_CLIENT_SECRET
+    );
+
 const client = new paypal.core.PayPalHttpClient(environment);
 
 export async function POST(req: NextRequest) {
