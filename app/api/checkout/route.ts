@@ -58,6 +58,9 @@ export async function POST(req: NextRequest) {
           currency_code: 'EUR',
           value: price.toFixed(2),
         },
+        description: product.description, 
+        custom_id: order.id.toString(),  
+        soft_descriptor: "MUELLEPIECE",
       }],
       application_context: {
         return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/capture?orderID=${order.id}`,
